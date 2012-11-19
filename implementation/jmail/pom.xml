@@ -1,0 +1,11 @@
+<project>
+
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>ch.zhaw.mdp</groupId>
+	<artifactId>fallstudie.jmail</artifactId>
+	<version>1</version>
+
+	<dependencies>
+	  	<!-- Add dependencies here -->
+	</dependencies>
+</project>
