@@ -58,7 +58,7 @@ public class ReadingPane extends JPanel {
 
 	public void setMessage(Message message) {
 		this.message.setText(message.getContent());
-		this.from.setText(message.getSender().toString());
+		this.from.setText(message.getSender().getRecipient());
 		this.to.setText(message.getReceiversDisplayString());
 		this.subject.setText(message.getSubject());
 	}
