@@ -1,7 +1,6 @@
 package ch.zhaw.mdp.fallstudie.jmail.ui;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.util.Enumeration;
 
 import javax.swing.BorderFactory;
@@ -10,7 +9,6 @@ import javax.swing.JTree;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
@@ -19,63 +17,56 @@ public class MessageBox {
 	public static final Color BACKGROUND_COLOR = new Color(238, 243, 250);
 	public static final Color NODE_COLOR = new Color(0, 243, 250);
 
-	private JTree tree;
+	private final JTree tree;
+	@SuppressWarnings("unused")
 	private final MessageViewer messageViewer;
-	private DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode("");
+	private final DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode("");
 	/* DUMMY VALUES */
-	private DefaultMutableTreeNode accountNode1 = new DefaultMutableTreeNode(
-			"jmail@zhaw.ch");
-	private DefaultMutableTreeNode inboxNode1 = new DefaultMutableTreeNode(
-			"Inbox");
-	private DefaultMutableTreeNode outboxNode1 = new DefaultMutableTreeNode(
-			"Outbox");
-	private DefaultMutableTreeNode trashNode1 = new DefaultMutableTreeNode(
-			"Trash");
-	private DefaultMutableTreeNode accountNode2 = new DefaultMutableTreeNode(
-			"students@zhaw.ch");
-	private DefaultMutableTreeNode inboxNode2 = new DefaultMutableTreeNode(
-			"Inbox");
-	private DefaultMutableTreeNode outboxNode2 = new DefaultMutableTreeNode(
-			"Outbox");
-	private DefaultMutableTreeNode trashNode2 = new DefaultMutableTreeNode(
-			"Trash");
+	private final DefaultMutableTreeNode accountNode1 = new DefaultMutableTreeNode("jmail@zhaw.ch");
+	private final DefaultMutableTreeNode inboxNode1 = new DefaultMutableTreeNode("Inbox");
+	private final DefaultMutableTreeNode outboxNode1 = new DefaultMutableTreeNode("Outbox");
+	private final DefaultMutableTreeNode trashNode1 = new DefaultMutableTreeNode("Trash");
+	private final DefaultMutableTreeNode accountNode2 = new DefaultMutableTreeNode("students@zhaw.ch");
+	private final DefaultMutableTreeNode inboxNode2 = new DefaultMutableTreeNode("Inbox");
+	private final DefaultMutableTreeNode outboxNode2 = new DefaultMutableTreeNode("Outbox");
+	private final DefaultMutableTreeNode trashNode2 = new DefaultMutableTreeNode("Trash");
 
 	public MessageBox(MessageViewer messageViewer) {
 		this.messageViewer = messageViewer;
 
-		rootNode.add(accountNode1);
-		accountNode1.add(inboxNode1);
-		accountNode1.add(outboxNode1);
-		accountNode1.add(trashNode1);
+		this.rootNode.add(this.accountNode1);
+		this.accountNode1.add(this.inboxNode1);
+		this.accountNode1.add(this.outboxNode1);
+		this.accountNode1.add(this.trashNode1);
 
-		rootNode.add(accountNode2);
-		accountNode2.add(inboxNode2);
-		accountNode2.add(outboxNode2);
-		accountNode2.add(trashNode2);
+		this.rootNode.add(this.accountNode2);
+		this.accountNode2.add(this.inboxNode2);
+		this.accountNode2.add(this.outboxNode2);
+		this.accountNode2.add(this.trashNode2);
 
-		tree = new JTree(rootNode);
-		tree.setRootVisible(false);
-		tree.setEditable(false);
-		tree.setExpandsSelectedPaths(true);
-		tree.setBackground(BACKGROUND_COLOR);
-		tree.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-		
-		tree.addTreeSelectionListener(new TreeSelectionListener() {
+		this.tree = new JTree(this.rootNode);
+		this.tree.setRootVisible(false);
+		this.tree.setEditable(false);
+		this.tree.setExpandsSelectedPaths(true);
+		this.tree.setBackground(MessageBox.BACKGROUND_COLOR);
+		this.tree.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+		this.tree.addTreeSelectionListener(new TreeSelectionListener() {
 
 			@Override
 			public void valueChanged(TreeSelectionEvent e) {
-				DefaultMutableTreeNode node = (DefaultMutableTreeNode) e
-						.getPath().getLastPathComponent();
+				DefaultMutableTreeNode node = (DefaultMutableTreeNode) e.getPath().getLastPathComponent();
+				@SuppressWarnings("unused")
 				Object userObject = node.getUserObject();
 				// TODO: handle message box selection
 			}
 		});
 
-		expandAll(tree, new TreePath(rootNode));
+		this.expandAll(this.tree, new TreePath(this.rootNode));
 	}
 
 	public JComponent getComponent() {
-		return tree;
+		return this.tree;
 	}
 
 	private void expandAll(JTree tree, TreePath parent) {
@@ -84,7 +75,7 @@ public class MessageBox {
 			for (Enumeration<?> e = node.children(); e.hasMoreElements();) {
 				TreeNode n = (TreeNode) e.nextElement();
 				TreePath path = parent.pathByAddingChild(n);
-				expandAll(tree, path);
+				this.expandAll(tree, path);
 			}
 		}
 		tree.expandPath(parent);
