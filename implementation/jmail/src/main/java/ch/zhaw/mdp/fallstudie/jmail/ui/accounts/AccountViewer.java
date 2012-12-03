@@ -27,6 +27,7 @@ import javax.swing.event.ListSelectionListener;
 
 import ch.zhaw.mdp.fallstudie.jmail.core.Account;
 import ch.zhaw.mdp.fallstudie.jmail.core.AccountUtil;
+import ch.zhaw.mdp.fallstudie.jmail.ui.MessageBox;
 import ch.zhaw.mdp.fallstudie.jmail.ui.components.SolidJSplitPane;
 
 public class AccountViewer extends JDialog {
@@ -34,12 +35,15 @@ public class AccountViewer extends JDialog {
 	/** Generated <code>serialVersionUID</code>. */
 	private static final long serialVersionUID = 4541971923461342504L;
 
+	private final MessageBox messageBox;
+
 	private Account currentAccount;
 	private Map<String, JTextField> bindings = new HashMap<String, JTextField>();
 
 	private JList<Account> accountList;
 
-	public AccountViewer() {
+	public AccountViewer(MessageBox messageBox) {
+		this.messageBox = messageBox;
 		configureDialog();
 		List<Account> accounts = AccountUtil.loadAccounts();
 		if (accounts == null) {
@@ -249,6 +253,7 @@ public class AccountViewer extends JDialog {
 				selectedValue.setAccountName(currentAccount.getAccountName());
 				accountList.setModel(accountList.getModel());
 				accountList.setSelectedValue(selectedValue, true);
+				messageBox.reloadNodes();
 			}
 		});
 

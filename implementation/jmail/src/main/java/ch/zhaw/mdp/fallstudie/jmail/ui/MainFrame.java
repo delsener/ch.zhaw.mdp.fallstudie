@@ -27,6 +27,7 @@ public class MainFrame implements MessageSelectionListener {
 	private ReadingPane readingPane = new ReadingPane();
 	private MessageViewer messageViewer = new MessageViewer();
 	private StatusBar statusBar = new StatusBar();
+	private MessageBox messageBox;
 
 	public void createAndShowGUI() {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -39,8 +40,9 @@ public class MainFrame implements MessageSelectionListener {
 				messageViewer.getComponent(), readingPane, 0.8);
 		messageViewer.addMessageSelectionListener(this);
 
+		messageBox = new MessageBox(messageViewer);
 		frame.add(new SolidJSplitPane(JSplitPane.HORIZONTAL_SPLIT,
-				new MessageBox(messageViewer).getComponent(), content, 0.3),
+				messageBox.getComponent(), content, 0.3),
 				BorderLayout.CENTER);
 
 		// statusbar
@@ -75,7 +77,7 @@ public class MainFrame implements MessageSelectionListener {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new AccountViewer();
+				new AccountViewer(messageBox);
 			}
 		});
 
