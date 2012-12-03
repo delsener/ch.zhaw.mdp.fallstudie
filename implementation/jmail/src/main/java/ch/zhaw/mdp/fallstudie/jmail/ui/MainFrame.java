@@ -16,6 +16,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JSplitPane;
 
 import ch.zhaw.mdp.fallstudie.jmail.core.Message;
+import ch.zhaw.mdp.fallstudie.jmail.ui.accounts.AccountViewer;
 import ch.zhaw.mdp.fallstudie.jmail.ui.components.SolidJSplitPane;
 
 public class MainFrame implements MessageSelectionListener {
@@ -68,6 +69,15 @@ public class MainFrame implements MessageSelectionListener {
 				// TODO: Create new message (open dialog ..)
 			}
 		});
+		
+		JMenuItem menuItemAccounts = new JMenuItem("Accounts..");
+		menuItemAccounts.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new AccountViewer();
+			}
+		});
 
 		JMenuItem menuItemExit = new JMenuItem("Exit");
 		menuItemExit.addActionListener(new ActionListener() {
@@ -87,6 +97,7 @@ public class MainFrame implements MessageSelectionListener {
 		JMenu menuHelp = new JMenu("Help");
 
 		menuFile.add(menuItemNewMessage);
+		menuFile.add(menuItemAccounts);
 		menuFile.add(menuItemExit);
 		menuHelp.add(menuItemHelpAbout);
 		menubar.add(menuFile);

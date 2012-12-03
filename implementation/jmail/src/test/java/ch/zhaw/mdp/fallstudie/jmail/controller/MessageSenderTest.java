@@ -10,7 +10,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
-public class MailSenderTest {
+public class MessageSenderTest {
 
 	@Mock
 	private Observer messageSenderObserver;
