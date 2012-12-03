@@ -1,0 +1,50 @@
+package ch.zhaw.mdp.fallstudie.jmail.core;
+
+import java.util.List;
+
+import junit.framework.Assert;
+
+import org.junit.BeforeClass;
+import org.junit.Test;
+
+/**
+ * Tests the logic of {@link AccountUtil}.
+ */
+public class AccountUtilTest {
+
+	@BeforeClass
+	public static void setup() {
+		System.setProperty("user.home", System.getProperty("java.io.tmpdir"));
+	}
+	
+	@Test
+	public void testLoadAccounts() {
+		List<Account> accounts = AccountUtil.loadAccounts();
+		Assert.assertEquals(1, accounts.size());
+		Assert.assertEquals("JMail Test Account", accounts.get(0).getAccountName());
+		Assert.assertEquals("jmail.test@yahoo.com", accounts.get(0).getAddress());
+	}
+	
+	@Test
+	public void testSaveAccounts() {
+		List<Account> accounts = AccountUtil.loadAccounts();
+		Assert.assertEquals(1, accounts.size());
+		
+		Account account = new Account();
+		account.setAccountName("TestAccount");
+		account.setAddress("test.account@foo.com");
+		
+		accounts.add(account);
+		
+		AccountUtil.saveAccounts(accounts);
+		accounts = AccountUtil.loadAccounts();
+		Assert.assertEquals(2, accounts.size());
+		
+		accounts.remove(1);
+		
+		AccountUtil.saveAccounts(accounts);
+		accounts = AccountUtil.loadAccounts();
+		Assert.assertEquals(1, accounts.size());
+	}
+	
+}
