@@ -6,6 +6,7 @@ import ch.zhaw.mdp.fallstudie.jmail.core.MailServer;
 
 /**
  * Represents an email account.
+
  */
 public class Account implements Serializable {
 
