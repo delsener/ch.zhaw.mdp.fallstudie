@@ -3,7 +3,7 @@ package ch.zhaw.mdp.fallstudie.jmail;
 import ch.zhaw.mdp.fallstudie.jmail.ui.MainFrame;
 
 /**
- * The Launcher contains a main method to start the application.
+ * The Launcher contains a main method to start the application with GUI.
  */
 public class Launcher {
 
