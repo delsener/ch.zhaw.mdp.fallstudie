@@ -3,7 +3,7 @@ package ch.zhaw.mdp.fallstudie.jmail.core;
 import java.io.Serializable;
 
 /**
- * Represents an email account.
+ * Represents an email account of jmail.
  */
 public class Account implements Serializable {
 
