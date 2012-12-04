@@ -15,7 +15,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JSplitPane;
 
-import ch.zhaw.mdp.fallstudie.jmail.core.Message;
+import ch.zhaw.mdp.fallstudie.jmail.core.MailMessage;
 import ch.zhaw.mdp.fallstudie.jmail.ui.accounts.AccountViewer;
 import ch.zhaw.mdp.fallstudie.jmail.ui.components.SolidJSplitPane;
 
@@ -111,7 +111,7 @@ public class MainFrame implements MessageSelectionListener {
 	}
 
 	@Override
-	public void messageSelected(Message message) {
+	public void messageSelected(MailMessage message) {
 		readingPane.setMessage(message);
 	}
 }

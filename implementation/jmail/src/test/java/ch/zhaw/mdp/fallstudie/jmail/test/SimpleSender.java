@@ -27,11 +27,11 @@ public class SimpleSender {
 			String to = "mdp.jmail@gmx.ch";
 			String from = "mdp.jmail@gmx.ch";
 			String subject = "Test Mail - Date: " + new Date().toString();
-			String body = "Hi. I'm a test mail generated on: "
-					+ new Date().toString();
+			String body = "Hi. I'm a test mail generated on: " + new Date().toString();
 
-			send(smtpServer, smtpUser, smtpPassword, to, from, subject, body);
-		} catch (Exception ex) {
+			SimpleSender.send(smtpServer, smtpUser, smtpPassword, to, from, subject, body);
+		}
+		catch (Exception ex) {
 			System.out.println("Usage: java com.lotontech.mail.SimpleSender smtpServer toAddress fromAddress subjectText bodyText");
 		}
 		System.exit(0);
@@ -40,15 +40,14 @@ public class SimpleSender {
 	/**
 	 * "send" method to send the message.
 	 */
-	public static void send(String smtpServer, final String smtpUser, final String smtpPassword, String to, String from, String subject,
-			String body) {
+	public static void send(String smtpServer, final String smtpUser, final String smtpPassword, String to, String from, String subject, String body) {
 		try {
 			Properties props = System.getProperties();
 			// -- Attaching to default Session, or we could start a new one --
 
 			props.put("mail.smtp.host", smtpServer);
-			props.put("mail.smtp.auth", "true");  
-			
+			props.put("mail.smtp.auth", "true");
+
 			Authenticator authenticator = new Authenticator() {
 				@Override
 				protected PasswordAuthentication getPasswordAuthentication() {
@@ -62,7 +61,7 @@ public class SimpleSender {
 
 			// -- Set the FROM and TO fields --
 			msg.setFrom(new InternetAddress(from));
-			msg.setRecipients(Message.RecipientType.TO,	InternetAddress.parse(to, false));
+			msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to, false));
 
 			// -- We could include CC recipients too --
 			// if (cc != null)
@@ -80,7 +79,8 @@ public class SimpleSender {
 			// -- Send the message --
 			Transport.send(msg);
 			System.out.println("Message sent OK.");
-		} catch (Exception ex) {
+		}
+		catch (Exception ex) {
 			ex.printStackTrace();
 		}
 	}

@@ -15,7 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
-import ch.zhaw.mdp.fallstudie.jmail.core.Message;
+import ch.zhaw.mdp.fallstudie.jmail.core.MailMessage;
 import ch.zhaw.mdp.fallstudie.jmail.ui.components.SolidJSplitPane;
 
 public class ReadingPane extends JPanel {
@@ -56,10 +56,10 @@ public class ReadingPane extends JPanel {
 		this.add(message, BorderLayout.CENTER);
 	}
 
-	public void setMessage(Message message) {
+	public void setMessage(MailMessage message) {
 		this.message.setText(message.getContent());
-		this.from.setText(message.getSender().getRecipient());
-		this.to.setText(message.getReceiversDisplayString());
+		this.from.setText(message.getSender().getAddress());
+		this.to.setText(message.getRecipientsDisplayString());
 		this.subject.setText(message.getSubject());
 	}
 

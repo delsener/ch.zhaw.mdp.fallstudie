@@ -14,8 +14,8 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
-import ch.zhaw.mdp.fallstudie.jmail.core.Account;
-import ch.zhaw.mdp.fallstudie.jmail.core.AccountUtil;
+import ch.zhaw.mdp.fallstudie.jmail.core.account.Account;
+import ch.zhaw.mdp.fallstudie.jmail.core.account.AccountUtil;
 
 public class MessageBox {
 
@@ -25,13 +25,12 @@ public class MessageBox {
 	private final JTree tree;
 	@SuppressWarnings("unused")
 	private final MessageViewer messageViewer;
-	private final DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode(
-			"");
+	private final DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode("");
 
 	public MessageBox(MessageViewer messageViewer) {
 		this.messageViewer = messageViewer;
 
-		reloadNodes();
+		this.reloadNodes();
 
 		this.tree = new JTree(this.rootNode);
 		this.tree.setRootVisible(false);
@@ -44,8 +43,7 @@ public class MessageBox {
 
 			@Override
 			public void valueChanged(TreeSelectionEvent e) {
-				DefaultMutableTreeNode node = (DefaultMutableTreeNode) e
-						.getPath().getLastPathComponent();
+				DefaultMutableTreeNode node = (DefaultMutableTreeNode) e.getPath().getLastPathComponent();
 				@SuppressWarnings("unused")
 				Object userObject = node.getUserObject();
 				// TODO: handle message box selection
@@ -57,28 +55,24 @@ public class MessageBox {
 
 	public void reloadNodes() {
 		// load accounts
-		rootNode.removeAllChildren();
+		this.rootNode.removeAllChildren();
 		List<Account> accounts = AccountUtil.loadAccounts();
 		for (Account account : accounts) {
-			DefaultMutableTreeNode accountNode = new DefaultMutableTreeNode(
-					account.getAccountName());
-			DefaultMutableTreeNode inboxNode = new DefaultMutableTreeNode(
-					"Inbox");
-			DefaultMutableTreeNode outboxNode = new DefaultMutableTreeNode(
-					"Outbox");
-			DefaultMutableTreeNode trashNode = new DefaultMutableTreeNode(
-					"Trash");
-			rootNode.add(accountNode);
+			DefaultMutableTreeNode accountNode = new DefaultMutableTreeNode(account.getAccountName());
+			DefaultMutableTreeNode inboxNode = new DefaultMutableTreeNode("Inbox");
+			DefaultMutableTreeNode outboxNode = new DefaultMutableTreeNode("Outbox");
+			DefaultMutableTreeNode trashNode = new DefaultMutableTreeNode("Trash");
+			this.rootNode.add(accountNode);
 			accountNode.add(inboxNode);
 			accountNode.add(outboxNode);
 			accountNode.add(trashNode);
 		}
 
-		if (tree != null) {
-			tree.setModel(new DefaultTreeModel(rootNode));
+		if (this.tree != null) {
+			this.tree.setModel(new DefaultTreeModel(this.rootNode));
 			int row = 0;
-			while (row < tree.getRowCount()) {
-				tree.expandRow(row);
+			while (row < this.tree.getRowCount()) {
+				this.tree.expandRow(row);
 				row++;
 			}
 		}
