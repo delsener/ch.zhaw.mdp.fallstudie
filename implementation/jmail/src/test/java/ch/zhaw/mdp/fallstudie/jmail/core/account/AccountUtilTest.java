@@ -23,15 +23,15 @@ public class AccountUtilTest {
 	@Test
 	public void testLoadAccounts() {
 		List<Account> accounts = AccountUtil.loadAccounts();
-		Assert.assertEquals(1, accounts.size());
-		Assert.assertEquals("JMail Test Account", accounts.get(0).getAccountName());
+		Assert.assertEquals(2, accounts.size());
+		Assert.assertEquals("Test@Yahoo", accounts.get(0).getAccountName());
 		Assert.assertEquals("jmail.test@yahoo.com", accounts.get(0).getAddress());
 	}
 	
 	@Test
 	public void testSaveAccounts() {
 		List<Account> accounts = AccountUtil.loadAccounts();
-		Assert.assertEquals(1, accounts.size());
+		Assert.assertEquals(2, accounts.size());
 		
 		Account account = new Account();
 		account.setAccountName("TestAccount");
@@ -41,13 +41,13 @@ public class AccountUtilTest {
 		
 		AccountUtil.saveAccounts(accounts);
 		accounts = AccountUtil.loadAccounts();
-		Assert.assertEquals(2, accounts.size());
+		Assert.assertEquals(3, accounts.size());
 		
 		accounts.remove(1);
 		
 		AccountUtil.saveAccounts(accounts);
 		accounts = AccountUtil.loadAccounts();
-		Assert.assertEquals(1, accounts.size());
+		Assert.assertEquals(2, accounts.size());
 	}
 	
 }
