@@ -9,9 +9,9 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-import ch.zhaw.mdp.fallstudie.jmail.core.MailMessage;
 import ch.zhaw.mdp.fallstudie.jmail.core.MailServer;
 import ch.zhaw.mdp.fallstudie.jmail.core.Recipient;
+import ch.zhaw.mdp.fallstudie.jmail.core.messages.MailMessage;
 
 public class MailSender implements IMailSender {
 

@@ -3,8 +3,10 @@ package ch.zhaw.mdp.fallstudie.jmail.ui;
 import java.awt.Color;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Vector;
 
 import javax.swing.BorderFactory;
@@ -15,8 +17,10 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
-import ch.zhaw.mdp.fallstudie.jmail.core.MailMessage;
-import ch.zhaw.mdp.fallstudie.jmail.core.Recipient;
+import ch.zhaw.mdp.fallstudie.jmail.core.account.Account;
+import ch.zhaw.mdp.fallstudie.jmail.core.messages.MailMessage;
+import ch.zhaw.mdp.fallstudie.jmail.core.messages.MessagePersistenceUtil;
+import ch.zhaw.mdp.fallstudie.jmail.core.messages.MessageType;
 
 public class MessageViewer implements ListSelectionListener {
 
@@ -27,9 +31,12 @@ public class MessageViewer implements ListSelectionListener {
 	private final JTable table;
 	private final DefaultTableModel model = new DefaultTableModel(new String[] {
 			"Subject", "From", "Date" }, 0);
-	private final List<MailMessage> messages;
+	
+	private final Map<MessageType, List<MailMessage>> messageMap;
+	private final List<MailMessage> filteredMessages = new ArrayList<MailMessage>();
+	
 	private final List<MessageSelectionListener> selectionListeners = new LinkedList<MessageSelectionListener>();
-
+	
 	public MessageViewer() {
 		this.table = new JTable(this.model);
 		this.table.setShowGrid(false);
@@ -40,27 +47,37 @@ public class MessageViewer implements ListSelectionListener {
 		this.scrollPane.getViewport().setBackground(Color.WHITE);
 		this.scrollPane.setBorder(BorderFactory.createEmptyBorder());
 
-		this.messages = new ArrayList<MailMessage>();
-
-		// DUMMY VALUES
-		this.generateMockMessages();
+		this.messageMap = new HashMap<MessageType, List<MailMessage>>();
+		MessageType[] messageTypes = MessageType.values();
+		for (MessageType messageType : messageTypes) {
+			this.messageMap.put(messageType, new ArrayList<MailMessage>());
+			setMessages(messageType, MessagePersistenceUtil.loadMessages(messageType));
+		}
+		filterMessages(null, null);
 	}
 
 	public JComponent getComponent() {
 		return this.scrollPane;
 	}
 
-	private void addMessages(List<MailMessage> messages) {
+	public void setMessages(MessageType messageType, List<MailMessage> messages) {
+		this.model.setRowCount(0);
+		this.messageMap.get(messageType).clear();
 		for (MailMessage message : messages) {
-			Vector<String> row = new Vector<String>();
-			row.add(message.getSubject());
-			row.add(message.getSender().getAddress());
-			if (message.getTimeSent() != null) {
-				row.add(MessageViewer.dateFormat.format(message.getTimeSent()));
-			}
-			this.model.addRow(row);
-			this.messages.add(message);
+			addMessageToModel(message);
+			this.messageMap.get(messageType).add(message);
 		}
+		this.table.updateUI();
+	}
+	
+	private void addMessageToModel(MailMessage message) {
+		Vector<String> row = new Vector<String>();
+		row.add(message.getSubject());
+		row.add(message.getSender().getAddress());
+		if (message.getTimeSent() != null) {
+			row.add(MessageViewer.dateFormat.format(message.getTimeSent()));
+		}
+		this.model.addRow(row);
 	}
 
 	public void addMessageSelectionListener(MessageSelectionListener listener) {
@@ -70,41 +87,30 @@ public class MessageViewer implements ListSelectionListener {
 	@Override
 	public void valueChanged(ListSelectionEvent e) {
 		final int selectedRow = this.table.getSelectedRow();
-		if (selectedRow == -1 || selectedRow >= this.messages.size()) {
+		if (selectedRow == -1 || selectedRow >= this.filteredMessages.size()) {
 			return;
 		}
-
-		MailMessage message = this.messages.get(selectedRow);
+		
+		MailMessage message = filteredMessages.get(selectedRow);
 
 		for (MessageSelectionListener listener : this.selectionListeners) {
 			listener.messageSelected(message);
 		}
 	}
 
-	public void filterMessages(String filter) {
+	public void filterMessages(MessageType messageType, Account account) {
+		filteredMessages.clear();
+		
 		this.model.setRowCount(0);
-		this.messages.clear();
-		// TODO: filter messages
-	}
-
-	private void generateMockMessages() {
-		// receivers
-		List<Recipient> receivers = new ArrayList<Recipient>();
-		receivers.add(new Recipient("roger.knecht@students.zhaw.ch"));
-		receivers.add(new Recipient("david.elsener@students.zhaw.ch"));
-		receivers.add(new Recipient("oliver.streuli@students.zhaw.ch"));
-		receivers.add(new Recipient("markus.peloso@students.zhaw.ch"));
-
-		// mail messages
-		List<MailMessage> messages = new ArrayList<MailMessage>();
-		for (int i = 0; i < 10; i++) {
-			MailMessage mailMessage = new MailMessage(new Recipient(
-					"jmail@zhaw.ch"), receivers,
-					"Mail-Content of the mail number " + (i + 1) + "!", "Mail "
-							+ (i + 1));
-			messages.add(mailMessage);
+		if (messageType == null || account == null) {
+			return;
 		}
-
-		this.addMessages(messages);
+		
+		for (MailMessage mailMessage : messageMap.get(messageType)) {
+			if (account == null || account.getAccountName().equals(mailMessage.getAccount().getAccountName())) {
+				addMessageToModel(mailMessage);
+				filteredMessages.add(mailMessage);
+			}
+		}
 	}
 }

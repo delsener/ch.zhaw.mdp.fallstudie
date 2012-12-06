@@ -3,8 +3,9 @@ package ch.zhaw.mdp.fallstudie.jmail.core.sendreceive;
 import java.util.ArrayList;
 import java.util.List;
 
-import ch.zhaw.mdp.fallstudie.jmail.core.MailMessage;
 import ch.zhaw.mdp.fallstudie.jmail.core.MailServer;
+import ch.zhaw.mdp.fallstudie.jmail.core.account.Account;
+import ch.zhaw.mdp.fallstudie.jmail.core.messages.MailMessage;
 
 public class TestMailReceiver {
 
@@ -14,10 +15,13 @@ public class TestMailReceiver {
 		mailServer.setUsername("mdp.jmail@gmx.ch");
 		mailServer.setPassword("MDP#Fallstudie");
 
+		Account account = new Account();
+		account.setInServer(mailServer);
+		
 		List<MailMessage> messages = new ArrayList<MailMessage>();
 
 		IMailReceiver receiver = new MailReceiver();
-		if (!receiver.receiveMails(mailServer, messages)) {
+		if (!receiver.receiveMails(account, messages)) {
 			Exception exception = receiver.getLastException();
 			if (exception != null) {
 				exception.printStackTrace();

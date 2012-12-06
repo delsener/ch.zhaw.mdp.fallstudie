@@ -18,9 +18,10 @@ import javax.mail.Session;
 import javax.mail.Store;
 import javax.mail.internet.InternetAddress;
 
-import ch.zhaw.mdp.fallstudie.jmail.core.MailMessage;
 import ch.zhaw.mdp.fallstudie.jmail.core.MailServer;
 import ch.zhaw.mdp.fallstudie.jmail.core.Recipient;
+import ch.zhaw.mdp.fallstudie.jmail.core.account.Account;
+import ch.zhaw.mdp.fallstudie.jmail.core.messages.MailMessage;
 
 public class MailReceiver implements IMailReceiver {
 
@@ -31,9 +32,11 @@ public class MailReceiver implements IMailReceiver {
 	}
 
 	@Override
-	public boolean receiveMails(MailServer mailServer, List<MailMessage> mailMessages) {
+	public boolean receiveMails(Account account, List<MailMessage> mailMessages) {
 		Store store = null;
 		Folder folder = null;
+		
+		MailServer mailServer = account.getInServer();
 
 		try {
 			this.lastException = null;
@@ -58,7 +61,7 @@ public class MailReceiver implements IMailReceiver {
 
 			Message[] messages = folder.getMessages();
 			for (Message message : messages) {
-				MailMessage mailMessage = this.parseMailMessage(message);
+				MailMessage mailMessage = this.parseMailMessage(account, message);
 				mailMessages.add(mailMessage);
 			}
 		}
@@ -75,7 +78,7 @@ public class MailReceiver implements IMailReceiver {
 		return this.lastException;
 	}
 
-	private MailMessage parseMailMessage(Message message) throws MessagingException, IOException {
+	private MailMessage parseMailMessage(Account account, Message message) throws MessagingException, IOException {
 		String messageFrom = ((InternetAddress) message.getFrom()[0]).getAddress();
 		String messageSubject = message.getSubject();
 
@@ -111,7 +114,7 @@ public class MailReceiver implements IMailReceiver {
 			receivers.add(new Recipient(messageRecipient));
 		}
 
-		MailMessage mailMessage = new MailMessage(sender, receivers, messageSubject.toString(), messageContent.toString());
+		MailMessage mailMessage = new MailMessage(account, sender, receivers, messageSubject.toString(), messageContent.toString());
 		mailMessage.setTimeSent(message.getSentDate());
 		mailMessage.setTransmitted(true);
 

@@ -2,6 +2,7 @@ package ch.zhaw.mdp.fallstudie.jmail.ui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -11,11 +12,12 @@ import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JEditorPane;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
+import javax.swing.JScrollPane;
 
-import ch.zhaw.mdp.fallstudie.jmail.core.MailMessage;
+import ch.zhaw.mdp.fallstudie.jmail.core.messages.MailMessage;
 import ch.zhaw.mdp.fallstudie.jmail.ui.components.SolidJSplitPane;
 
 public class ReadingPane extends JPanel {
@@ -27,7 +29,7 @@ public class ReadingPane extends JPanel {
 	private JLabel from = new JLabel();
 	private JLabel to = new JLabel();
 	private JLabel subject = new JLabel();
-	private JTextArea message = new JTextArea();
+	private JEditorPane message = new JEditorPane();
 	private JPanel infoPanel;
 
 	public ReadingPane() {
@@ -49,11 +51,20 @@ public class ReadingPane extends JPanel {
 		addInfoPanelItem(new JLabel("To"), PLAIN_FONT, Color.GRAY, 0, 2, 0);
 		addInfoPanelItem(to, PLAIN_FONT, Color.BLACK, 1, 2, 1);
 
+		message.setContentType("text/html");
 		message.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+		message.setEditable(false);
+
+		//Put the editor pane in a scroll pane.
+		JScrollPane messageScrollPane = new JScrollPane(message);
+		messageScrollPane.setVerticalScrollBarPolicy(
+		                JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		messageScrollPane.setPreferredSize(new Dimension(250, 145));
+		messageScrollPane.setMinimumSize(new Dimension(10, 10));
 
 		// this.add(actionPanel, BorderLayout.NORTH);
 		this.add(infoPanel, BorderLayout.NORTH);
-		this.add(message, BorderLayout.CENTER);
+		this.add(messageScrollPane, BorderLayout.CENTER);
 	}
 
 	public void setMessage(MailMessage message) {

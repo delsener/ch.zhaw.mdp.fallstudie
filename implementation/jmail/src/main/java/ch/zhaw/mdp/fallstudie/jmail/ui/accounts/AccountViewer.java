@@ -42,7 +42,7 @@ public class AccountViewer extends JDialog {
 	private Account currentAccount;
 	private final Map<String, JTextField> bindings = new HashMap<String, JTextField>();
 
-	private JList accountList;
+	private JList<Account> accountList;
 
 	public AccountViewer(MessageBox messageBox) {
 		this.messageBox = messageBox;
@@ -81,7 +81,7 @@ public class AccountViewer extends JDialog {
 		this.setLayout(new BorderLayout());
 
 		// account list
-		this.accountList = new JList();
+		this.accountList = new JList<Account>();
 		this.accountList.addListSelectionListener(new ListSelectionListener() {
 
 			@Override

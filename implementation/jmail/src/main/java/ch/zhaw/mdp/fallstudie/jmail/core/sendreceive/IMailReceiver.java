@@ -2,19 +2,19 @@ package ch.zhaw.mdp.fallstudie.jmail.core.sendreceive;
 
 import java.util.List;
 
-import ch.zhaw.mdp.fallstudie.jmail.core.MailServer;
-import ch.zhaw.mdp.fallstudie.jmail.core.MailMessage;
+import ch.zhaw.mdp.fallstudie.jmail.core.account.Account;
+import ch.zhaw.mdp.fallstudie.jmail.core.messages.MailMessage;
 
 public interface IMailReceiver {
 
 	/**
-	 * @param mailServer
+	 * @param account
 	 * @param message
 	 * 
 	 * @return <code>true</code> on success otherwise it returns
 	 *         <code>false</code>
 	 */
-	public boolean receiveMails(MailServer mailServer, List<MailMessage> messages);
+	public boolean receiveMails(Account account, List<MailMessage> messages);
 
 	/**
 	 * @return Returns the exception that occurred during the

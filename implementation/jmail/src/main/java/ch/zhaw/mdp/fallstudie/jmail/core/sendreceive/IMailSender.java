@@ -1,7 +1,7 @@
 package ch.zhaw.mdp.fallstudie.jmail.core.sendreceive;
 
 import ch.zhaw.mdp.fallstudie.jmail.core.MailServer;
-import ch.zhaw.mdp.fallstudie.jmail.core.MailMessage;
+import ch.zhaw.mdp.fallstudie.jmail.core.messages.MailMessage;
 
 public interface IMailSender {
 

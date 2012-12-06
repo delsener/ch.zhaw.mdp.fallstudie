@@ -16,6 +16,7 @@ import javax.swing.tree.TreePath;
 
 import ch.zhaw.mdp.fallstudie.jmail.core.account.Account;
 import ch.zhaw.mdp.fallstudie.jmail.core.account.AccountUtil;
+import ch.zhaw.mdp.fallstudie.jmail.core.messages.MessageType;
 
 public class MessageBox {
 
@@ -23,7 +24,6 @@ public class MessageBox {
 	public static final Color NODE_COLOR = new Color(0, 243, 250);
 
 	private final JTree tree;
-	@SuppressWarnings("unused")
 	private final MessageViewer messageViewer;
 	private final DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode("");
 
@@ -43,10 +43,22 @@ public class MessageBox {
 
 			@Override
 			public void valueChanged(TreeSelectionEvent e) {
-				DefaultMutableTreeNode node = (DefaultMutableTreeNode) e.getPath().getLastPathComponent();
-				@SuppressWarnings("unused")
+				TreePath newLeadSelectionPath = e.getNewLeadSelectionPath();
+				if (newLeadSelectionPath == null) {
+					MessageBox.this.messageViewer.filterMessages(null, null);
+					return;
+				}
+				
+				DefaultMutableTreeNode node = (DefaultMutableTreeNode) newLeadSelectionPath.getLastPathComponent();
 				Object userObject = node.getUserObject();
-				// TODO: handle message box selection
+				if (userObject instanceof Account) {
+					MessageBox.this.messageViewer.filterMessages(null, null);
+					return;
+				}
+				
+				MessageType messageType = (MessageType) userObject;
+				Account account = (Account) ((DefaultMutableTreeNode)node.getParent()).getUserObject();
+				MessageBox.this.messageViewer.filterMessages(messageType, account);
 			}
 		});
 
@@ -58,14 +70,13 @@ public class MessageBox {
 		this.rootNode.removeAllChildren();
 		List<Account> accounts = AccountUtil.loadAccounts();
 		for (Account account : accounts) {
-			DefaultMutableTreeNode accountNode = new DefaultMutableTreeNode(account.getAccountName());
-			DefaultMutableTreeNode inboxNode = new DefaultMutableTreeNode("Inbox");
-			DefaultMutableTreeNode outboxNode = new DefaultMutableTreeNode("Outbox");
-			DefaultMutableTreeNode trashNode = new DefaultMutableTreeNode("Trash");
+			DefaultMutableTreeNode accountNode = new DefaultMutableTreeNode(account);
+			MessageType[] messageTypes = MessageType.values();
+			for (MessageType messageType : messageTypes) {
+				DefaultMutableTreeNode messageTypeNode = new DefaultMutableTreeNode(messageType);
+				accountNode.add(messageTypeNode);
+			}
 			this.rootNode.add(accountNode);
-			accountNode.add(inboxNode);
-			accountNode.add(outboxNode);
-			accountNode.add(trashNode);
 		}
 
 		if (this.tree != null) {

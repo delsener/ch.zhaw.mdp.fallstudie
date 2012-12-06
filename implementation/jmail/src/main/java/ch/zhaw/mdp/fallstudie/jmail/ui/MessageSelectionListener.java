@@ -1,6 +1,6 @@
 package ch.zhaw.mdp.fallstudie.jmail.ui;
 
-import ch.zhaw.mdp.fallstudie.jmail.core.MailMessage;
+import ch.zhaw.mdp.fallstudie.jmail.core.messages.MailMessage;
 
 public interface MessageSelectionListener {
 

@@ -1,10 +1,5 @@
 package ch.zhaw.mdp.fallstudie.jmail.validator;
 
-import java.io.File;
-
-import junit.framework.Assert;
-
-import org.junit.Test;
 
 public class MailValidatorTest {
 
