@@ -12,6 +12,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +31,9 @@ public final class AccountUtil {
 	}
 
 	public static List<Account> loadAccounts() {
-		AccountUtil.checkFile();
+		if (!AccountUtil.checkFile()) {
+			return new ArrayList<Account>(0);
+		}
 		return AccountUtil.loadAccounts(AccountUtil.ACCOUNT_FILE);
 	}
 
@@ -84,11 +87,16 @@ public final class AccountUtil {
 		return recoveredQuarks;
 	}
 
-	private static void checkFile() {
+	private static boolean checkFile() {
 		if (!AccountUtil.ACCOUNT_FILE.exists()) {
 			File sourceFile;
-			sourceFile = new File(AccountUtil.class.getClassLoader().getResource(AccountUtil.FILE_NAME).getPath());
+			URL resource = AccountUtil.class.getClassLoader().getResource(AccountUtil.FILE_NAME);
+			if (resource == null) {
+				return false;
+			}
+			sourceFile = new File(resource.getPath());
 			AccountUtil.internalSaveAccounts(AccountUtil.loadAccounts(sourceFile));
 		}
+		return true;
 	}
 }

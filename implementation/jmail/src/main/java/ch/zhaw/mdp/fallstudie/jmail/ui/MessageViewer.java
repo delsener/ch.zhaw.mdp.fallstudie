@@ -20,11 +20,13 @@ import ch.zhaw.mdp.fallstudie.jmail.core.Recipient;
 
 public class MessageViewer implements ListSelectionListener {
 
-	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+	private static final SimpleDateFormat dateFormat = new SimpleDateFormat(
+			"dd.MM.yyyy HH:mm");
 
 	private final JScrollPane scrollPane;
 	private final JTable table;
-	private final DefaultTableModel model = new DefaultTableModel(new String[] { "Subject", "From", "Date" }, 0);
+	private final DefaultTableModel model = new DefaultTableModel(new String[] {
+			"Subject", "From", "Date" }, 0);
 	private final List<MailMessage> messages;
 	private final List<MessageSelectionListener> selectionListeners = new LinkedList<MessageSelectionListener>();
 
@@ -53,7 +55,9 @@ public class MessageViewer implements ListSelectionListener {
 			Vector<String> row = new Vector<String>();
 			row.add(message.getSubject());
 			row.add(message.getSender().getAddress());
-			row.add(MessageViewer.dateFormat.format(message.getTimeSent()));
+			if (message.getTimeSent() != null) {
+				row.add(MessageViewer.dateFormat.format(message.getTimeSent()));
+			}
 			this.model.addRow(row);
 			this.messages.add(message);
 		}
@@ -94,7 +98,10 @@ public class MessageViewer implements ListSelectionListener {
 		// mail messages
 		List<MailMessage> messages = new ArrayList<MailMessage>();
 		for (int i = 0; i < 10; i++) {
-			MailMessage mailMessage = new MailMessage(new Recipient("jmail@zhaw.ch"), receivers, "Mail-Content of the mail number " + (i + 1) + "!", "Mail " + (i + 1));
+			MailMessage mailMessage = new MailMessage(new Recipient(
+					"jmail@zhaw.ch"), receivers,
+					"Mail-Content of the mail number " + (i + 1) + "!", "Mail "
+							+ (i + 1));
 			messages.add(mailMessage);
 		}
 
