@@ -25,11 +25,17 @@ public class Account implements Serializable {
 		this.outServer = new MailServer(587);
 		this.inServer = new MailServer(110);
 	}
-
+	
+	/**
+	 * Get the Name of the account.
+	 */
 	public String getAccountName() {
 		return accountName;
 	}
-
+	
+	/**
+	 * Get the E-Mail Adress of the account.
+	 */
 	public String getEmailName() {
 		return emailName;
 	}
