@@ -84,4 +84,5 @@ public class ReadingPane extends JPanel {
 		component.setForeground(color);
 		infoPanel.add(component, c);
 	}
+	
 }
