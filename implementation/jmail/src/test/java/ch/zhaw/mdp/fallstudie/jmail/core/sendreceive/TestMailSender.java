@@ -29,7 +29,7 @@ public class TestMailSender {
 		MailMessage message = new MailMessage(account, receiver, receivers, subject, content);
 
 		IMailSender sender = new MailSender();
-		if (!sender.sendMail(mailServer, message)) {
+		if (!sender.sendMail(account, message)) {
 			Exception exception = sender.getLastException();
 			if (exception != null) {
 				exception.printStackTrace();

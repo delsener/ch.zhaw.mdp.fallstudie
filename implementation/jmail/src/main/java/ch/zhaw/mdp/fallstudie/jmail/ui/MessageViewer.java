@@ -37,6 +37,9 @@ public class MessageViewer implements ListSelectionListener {
 	
 	private final List<MessageSelectionListener> selectionListeners = new LinkedList<MessageSelectionListener>();
 	
+	private MessageType currentMessageTypeFilter = null;
+	private Account currentAccountFilter = null;
+	
 	public MessageViewer() {
 		this.table = new JTable(this.model);
 		this.table.setShowGrid(false);
@@ -97,11 +100,17 @@ public class MessageViewer implements ListSelectionListener {
 			listener.messageSelected(message);
 		}
 	}
+	
+	public void refreshFilteredMessages() {
+		filterMessages(currentMessageTypeFilter, currentAccountFilter);
+	}
 
 	public void filterMessages(MessageType messageType, Account account) {
 		filteredMessages.clear();
 		
 		this.model.setRowCount(0);
+		this.currentAccountFilter = account;
+		this.currentMessageTypeFilter = messageType;
 		if (messageType == null || account == null) {
 			return;
 		}

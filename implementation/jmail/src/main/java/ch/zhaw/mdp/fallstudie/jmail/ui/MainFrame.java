@@ -49,7 +49,8 @@ public class MainFrame implements MessageSelectionListener {
 			
 			// create
 			if (MailCommand.CREATE.name().equals(e.getActionCommand())) {
-				MessageDialog messageDialog = new MessageDialog();
+				MessageDialog messageDialog = new MessageDialog(messageViewer,
+						statusBar);
 				messageDialog.setVisible(true);
 				return;
 			}

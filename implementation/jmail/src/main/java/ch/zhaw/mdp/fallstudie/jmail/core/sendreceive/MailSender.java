@@ -11,6 +11,7 @@ import javax.mail.internet.MimeMessage;
 
 import ch.zhaw.mdp.fallstudie.jmail.core.MailServer;
 import ch.zhaw.mdp.fallstudie.jmail.core.Recipient;
+import ch.zhaw.mdp.fallstudie.jmail.core.account.Account;
 import ch.zhaw.mdp.fallstudie.jmail.core.messages.MailMessage;
 
 public class MailSender implements IMailSender {
@@ -22,21 +23,23 @@ public class MailSender implements IMailSender {
 	}
 
 	@Override
-	public boolean sendMail(final MailServer mailServer, final MailMessage mailMessage) {
+	public boolean sendMail(final Account account, final MailMessage mailMessage) {
 		try {
+			MailServer mailServer = account.getOutServer();
 			this.lastException = null;
 
 			Properties props = System.getProperties();
 			props.put("mail.smtp.host", mailServer.getHost());
 			props.put("mail.smtp.port", mailServer.getPort());
 			props.put("mail.smtp.auth", "true");
+			props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
 
 			Session session = Session.getInstance(props, mailServer.getAuthenticator());
 			Message message = new MimeMessage(session);
 
-			message.setFrom(new InternetAddress(mailMessage.getSender().getAddress()));
+			message.setFrom(new InternetAddress(account.getAddress()));
 			for (Recipient receiver : mailMessage.getReceivers()) {
-				message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(receiver.getAddress(), false));
+				message.addRecipients(Message.RecipientType.TO, InternetAddress.parse(receiver.getAddress(), false));
 			}
 
 			message.setSubject(mailMessage.getSubject());
