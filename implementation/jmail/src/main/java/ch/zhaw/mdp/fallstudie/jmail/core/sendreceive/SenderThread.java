@@ -25,21 +25,27 @@ public class SenderThread extends Thread {
 
 	@Override
 	public void run() {
-		statusBar.setStatus("Sending mail ...");
+		this.statusBar.setStatus("Sending mail ...");
 		final List<MailMessage> messages = MessagePersistenceUtil.loadMessages(MessageType.SENT);
-		messages.add(mailMessage);
-		mailSender.sendMail(mailMessage.getAccount(), mailMessage);
+		messages.add(this.mailMessage);
+		boolean successful = this.mailSender.sendMail(this.mailMessage.getAccount(), this.mailMessage);
 
-		SwingUtilities.invokeLater(new Runnable() {
+		if (successful) {
+			SwingUtilities.invokeLater(new Runnable() {
 
-			@Override
-			public void run() {
-				messageViewer.setMessages(MessageType.SENT, messages);
-				MessagePersistenceUtil.saveMessages(MessageType.SENT, messages);
-				messageViewer.refreshFilteredMessages();
-				statusBar.setStatus("Ready");
-			}
-		});
+				@Override
+				public void run() {
+					SenderThread.this.messageViewer.setMessages(MessageType.SENT, messages);
+					MessagePersistenceUtil.saveMessages(MessageType.SENT, messages);
+					SenderThread.this.messageViewer.refreshFilteredMessages();
+					SenderThread.this.statusBar.setStatus("Ready");
+				}
+			});
+		}
+		else {
+			Exception exception = this.mailSender.getLastException();
+			exception.printStackTrace();
+		}
 	}
 
 }
