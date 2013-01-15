@@ -17,7 +17,7 @@ public class TestMailReceiver {
 
 		Account account = new Account();
 		account.setInServer(mailServer);
-		
+
 		List<MailMessage> messages = new ArrayList<MailMessage>();
 
 		IMailReceiver receiver = new MailReceiver();

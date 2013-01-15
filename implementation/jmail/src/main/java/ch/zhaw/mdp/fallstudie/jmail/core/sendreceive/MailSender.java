@@ -45,8 +45,6 @@ public class MailSender implements IMailSender {
 			message.setSubject(mailMessage.getSubject());
 			message.setText(mailMessage.getContent());
 
-			// TODO: Add attachments
-
 			message.setHeader("X-Mailer", "LOTONtechEmail");
 			message.setSentDate(new Date());
 

@@ -27,7 +27,8 @@ public class SimpleReceiver {
 			String popUser = "mdp.jmail@gmx.ch";
 			String popPassword = "MDP#Fallstudie";
 			receive(popServer, popUser, popPassword);
-		} catch (Exception ex) {
+		}
+		catch (Exception ex) {
 			System.out.println("Usage: java com.lotontech.mail.SimpleReceiver" + " popServer popUser popPassword");
 		}
 	}
@@ -60,20 +61,23 @@ public class SimpleReceiver {
 			Message[] msgs = folder.getMessages();
 			for (int msgNum = 0; msgNum < msgs.length; msgNum++) {
 				printMessage(msgs[msgNum]);
-				// msgs[msgNum].setFlag(Flags.Flag.RECENT, false); // Remove "unread"-flag, does not work client-side
+				// msgs[msgNum].setFlag(Flags.Flag.RECENT, false); // Remove
+				// "unread"-flag, does not work client-side
 			}
-			
-			
-		} catch (Exception ex) {
+
+		}
+		catch (Exception ex) {
 			ex.printStackTrace();
-		} finally {
+		}
+		finally {
 			// -- Close down nicely --
 			try {
 				if (folder != null)
 					folder.close(false);
 				if (store != null)
 					store.close();
-			} catch (Exception ex2) {
+			}
+			catch (Exception ex2) {
 				ex2.printStackTrace();
 			}
 		}
@@ -105,7 +109,7 @@ public class SimpleReceiver {
 			System.out.println("CONTENT:" + contentType);
 			if (contentType.startsWith("text/plain") || contentType.startsWith("text/html")) {
 				InputStream is = messagePart.getInputStream();
-				BufferedReader reader = new BufferedReader(	new InputStreamReader(is));
+				BufferedReader reader = new BufferedReader(new InputStreamReader(is));
 				String thisLine = reader.readLine();
 				while (thisLine != null) {
 					System.out.println(thisLine);
@@ -113,7 +117,8 @@ public class SimpleReceiver {
 				}
 			}
 			System.out.println("-----------------------------");
-		} catch (Exception ex) {
+		}
+		catch (Exception ex) {
 			ex.printStackTrace();
 		}
 	}

@@ -10,7 +10,8 @@ public class Launcher {
 	/**
 	 * Main.
 	 * 
-	 * @param args program arguments.
+	 * @param args
+	 *            program arguments.
 	 */
 	public static void main(String[] args) {
 		new MainFrame().createAndShowGUI();

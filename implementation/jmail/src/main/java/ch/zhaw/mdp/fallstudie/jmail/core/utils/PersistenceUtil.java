@@ -28,10 +28,12 @@ public abstract class PersistenceUtil {
 			ObjectOutput output = new ObjectOutputStream(buffer);
 			try {
 				output.writeObject(object);
-			} finally {
+			}
+			finally {
 				output.close();
 			}
-		} catch (IOException ex) {
+		}
+		catch (IOException ex) {
 			System.out.println("Error saving accounts");
 			ex.printStackTrace();
 		}
@@ -47,13 +49,16 @@ public abstract class PersistenceUtil {
 			try {
 				// deserialize the List
 				return (Serializable) input.readObject();
-			} finally {
+			}
+			finally {
 				input.close();
 			}
-		} catch (ClassNotFoundException ex) {
+		}
+		catch (ClassNotFoundException ex) {
 			System.out.println("Error loading accounts");
 			ex.printStackTrace();
-		} catch (IOException ex) {
+		}
+		catch (IOException ex) {
 			System.out.println("Error loading accounts");
 			ex.printStackTrace();
 		}

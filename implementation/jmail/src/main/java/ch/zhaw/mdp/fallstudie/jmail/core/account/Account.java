@@ -6,18 +6,17 @@ import ch.zhaw.mdp.fallstudie.jmail.core.MailServer;
 
 /**
  * Represents an email account.
-
  */
 public class Account implements Serializable {
 
 	private static final long serialVersionUID = -1025225780265942218L;
-	
+
 	private String accountName;
 	private String emailName;
 	private String address;
 	private MailServer outServer;
 	private MailServer inServer;
-	
+
 	/**
 	 * Default Constructor.
 	 */
@@ -25,14 +24,14 @@ public class Account implements Serializable {
 		this.outServer = new MailServer(587);
 		this.inServer = new MailServer(110);
 	}
-	
+
 	/**
 	 * Get the Name of the account.
 	 */
 	public String getAccountName() {
 		return accountName;
 	}
-	
+
 	/**
 	 * Get the E-Mail Adress of the account.
 	 */
@@ -51,7 +50,7 @@ public class Account implements Serializable {
 	public MailServer getInServer() {
 		return inServer;
 	}
-	
+
 	public void setAccountName(String accountName) {
 		this.accountName = accountName;
 	}

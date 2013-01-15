@@ -19,7 +19,8 @@ public class TestMailSender {
 
 		Account account = new Account();
 		account.setOutServer(mailServer);
-		
+		account.setAddress("mdp.jmail@gmx.ch");
+
 		Recipient receiver = new Recipient("mdp.jmail@gmx.ch");
 		List<Recipient> receivers = new ArrayList<Recipient>();
 		receivers.add(new Recipient("mdp.jmail@gmx.ch"));

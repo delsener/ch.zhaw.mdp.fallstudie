@@ -18,7 +18,7 @@ public final class AccountUtil {
 	private static final File ACCOUNT_FILE = new File(System.getProperty("user.home") + "/" + AccountUtil.FILE_NAME);
 
 	public static void saveAccounts(List<Account> accounts) {
-		PersistenceUtil.saveObject(ACCOUNT_FILE, (Serializable) accounts);
+		PersistenceUtil.saveObject(AccountUtil.ACCOUNT_FILE, (Serializable) accounts);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -26,7 +26,7 @@ public final class AccountUtil {
 		if (!AccountUtil.checkFile()) {
 			return new ArrayList<Account>(0);
 		}
-		return (List<Account>) PersistenceUtil.loadObject(ACCOUNT_FILE);
+		return (List<Account>) PersistenceUtil.loadObject(AccountUtil.ACCOUNT_FILE);
 	}
 
 	private static boolean checkFile() {
@@ -37,7 +37,9 @@ public final class AccountUtil {
 				return false;
 			}
 			sourceFile = new File(resource.getPath());
-			PersistenceUtil.saveObject(ACCOUNT_FILE, PersistenceUtil.loadObject(sourceFile));
+
+			// FIXME: This does not work !!!
+			PersistenceUtil.saveObject(AccountUtil.ACCOUNT_FILE, PersistenceUtil.loadObject(sourceFile));
 		}
 		return true;
 	}

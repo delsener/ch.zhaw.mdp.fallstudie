@@ -48,16 +48,16 @@ public class MessageBox {
 					MessageBox.this.messageViewer.filterMessages(null, null);
 					return;
 				}
-				
+
 				DefaultMutableTreeNode node = (DefaultMutableTreeNode) newLeadSelectionPath.getLastPathComponent();
 				Object userObject = node.getUserObject();
 				if (userObject instanceof Account) {
 					MessageBox.this.messageViewer.filterMessages(null, null);
 					return;
 				}
-				
+
 				MessageType messageType = (MessageType) userObject;
-				Account account = (Account) ((DefaultMutableTreeNode)node.getParent()).getUserObject();
+				Account account = (Account) ((DefaultMutableTreeNode) node.getParent()).getUserObject();
 				MessageBox.this.messageViewer.filterMessages(messageType, account);
 			}
 		});

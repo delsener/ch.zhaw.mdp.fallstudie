@@ -27,8 +27,7 @@ public class GradientJPanel extends JPanel {
 		Graphics2D g2d = (Graphics2D) g;
 		Rectangle bounds = g.getClipBounds();
 
-		GradientPaint paint = new GradientPaint(0, 0, top, 0, bounds.height,
-				bottom);
+		GradientPaint paint = new GradientPaint(0, 0, top, 0, bounds.height, bottom);
 		g2d.setPaint(paint);
 		g2d.fillRect(bounds.x, bounds.y, bounds.width, bounds.height);
 	}

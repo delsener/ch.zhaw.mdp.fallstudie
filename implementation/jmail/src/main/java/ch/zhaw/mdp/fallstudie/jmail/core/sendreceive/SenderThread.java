@@ -32,5 +32,5 @@ public class SenderThread extends Thread {
 		messageViewer.refreshFilteredMessages();
 		statusBar.setStatus("Ready");
 	}
-	
+
 }

@@ -13,8 +13,7 @@ public class SolidJSplitPane extends JSplitPane {
 	private static final long serialVersionUID = -5961879118051912892L;
 	public static Color BORDER_COLOR = new Color(169, 183, 201);
 
-	public SolidJSplitPane(int newOrientation, Component newLeftComponent,
-			Component newRightComponent, double percent) {
+	public SolidJSplitPane(int newOrientation, Component newLeftComponent, Component newRightComponent, double percent) {
 		super(newOrientation, newLeftComponent, newRightComponent);
 
 		setBorder(BorderFactory.createEmptyBorder());

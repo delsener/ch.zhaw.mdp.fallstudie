@@ -8,7 +8,7 @@ import java.io.Serializable;
 public class Recipient implements Serializable {
 
 	private static final long serialVersionUID = -5269224144443392438L;
-	
+
 	private final String address;
 
 	/**

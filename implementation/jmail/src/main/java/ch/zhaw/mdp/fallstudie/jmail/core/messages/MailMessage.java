@@ -6,6 +6,7 @@ import java.util.List;
 
 import ch.zhaw.mdp.fallstudie.jmail.core.Recipient;
 import ch.zhaw.mdp.fallstudie.jmail.core.account.Account;
+import ch.zhaw.mdp.fallstudie.jmail.core.validator.IMessageValidator;
 
 /**
  * This class represents a mail message.
@@ -13,7 +14,7 @@ import ch.zhaw.mdp.fallstudie.jmail.core.account.Account;
 public class MailMessage implements Serializable {
 
 	private static final long serialVersionUID = -134067771668803519L;
-	
+
 	private final Account account;
 	private final Recipient sender;
 	private final List<Recipient> recipients;
@@ -37,8 +38,7 @@ public class MailMessage implements Serializable {
 	 * @param content
 	 *            the content.
 	 */
-	public MailMessage(Account account, Recipient sender,
-			List<Recipient> recipients, String subject, String content) {
+	public MailMessage(Account account, Recipient sender, List<Recipient> recipients, String subject, String content) {
 		this.account = account;
 		this.sender = sender;
 		this.recipients = recipients;
@@ -48,7 +48,7 @@ public class MailMessage implements Serializable {
 		this.timeSent = null;
 		this.transmitted = false;
 	}
-	
+
 	/**
 	 * Returns the sender.
 	 * 
@@ -121,14 +121,14 @@ public class MailMessage implements Serializable {
 	public void setTransmitted(boolean transmitted) {
 		this.transmitted = transmitted;
 	}
-	
+
 	/**
 	 * Getter for the account.
 	 * 
 	 * @return the account.
 	 */
 	public Account getAccount() {
-		return account;
+		return this.account;
 	}
 
 	/**
@@ -143,5 +143,12 @@ public class MailMessage implements Serializable {
 		}
 		stringBuilder.deleteCharAt(stringBuilder.length() - 1);
 		return stringBuilder.toString();
+	}
+
+	/**
+	 * Returns true if the message is valid. (Visitor pattern)
+	 */
+	public final boolean isValid(IMessageValidator messageValidator) {
+		return messageValidator.validate(this);
 	}
 }

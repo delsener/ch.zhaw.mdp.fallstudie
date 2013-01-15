@@ -35,7 +35,7 @@ public class MailReceiver implements IMailReceiver {
 	public boolean receiveMails(Account account, List<MailMessage> mailMessages) {
 		Store store = null;
 		Folder folder = null;
-		
+
 		MailServer mailServer = account.getInServer();
 
 		try {
@@ -117,8 +117,6 @@ public class MailReceiver implements IMailReceiver {
 		MailMessage mailMessage = new MailMessage(account, sender, receivers, messageSubject.toString(), messageContent.toString());
 		mailMessage.setTimeSent(message.getSentDate());
 		mailMessage.setTransmitted(true);
-
-		// TODO: Add the attachments to the MailMessage
 
 		return mailMessage;
 	}

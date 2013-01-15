@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Frame;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -28,11 +29,11 @@ import ch.zhaw.mdp.fallstudie.jmail.ui.dialogs.MessageDialog;
 
 public class MainFrame implements MessageSelectionListener {
 
-	private JFrame frame = new JFrame("JMail");
-	private JMenuBar menubar = new JMenuBar();
-	private ReadingPane readingPane = new ReadingPane();
-	private MessageViewer messageViewer = new MessageViewer();
-	private StatusBar statusBar = new StatusBar();
+	private final JFrame frame = new JFrame("JMail");
+	private final JMenuBar menubar = new JMenuBar();
+	private final ReadingPane readingPane = new ReadingPane();
+	private final MessageViewer messageViewer = new MessageViewer();
+	private final StatusBar statusBar = new StatusBar();
 	private MessageBox messageBox;
 
 	private final ActionListener mailActionListener = new ActionListener() {
@@ -41,62 +42,55 @@ public class MainFrame implements MessageSelectionListener {
 		public void actionPerformed(ActionEvent e) {
 			// receive
 			if (MailCommand.RECEIVE.name().equals(e.getActionCommand())) {
-				Thread receiverThread = new ReceiverThread(messageViewer,
-						statusBar);
+				Thread receiverThread = new ReceiverThread(MainFrame.this.messageViewer, MainFrame.this.statusBar);
 				receiverThread.start();
 				return;
 			}
-			
+
 			// create
 			if (MailCommand.CREATE.name().equals(e.getActionCommand())) {
-				MessageDialog messageDialog = new MessageDialog(messageViewer,
-						statusBar);
+				MessageDialog messageDialog = new MessageDialog(MainFrame.this.messageViewer, MainFrame.this.statusBar);
 				messageDialog.setVisible(true);
 				return;
 			}
-			
-			System.err.print("Action with command " + e.getActionCommand()
-					+ " is unknown.");
+
+			System.err.print("Action with command " + e.getActionCommand() + " is unknown.");
 		}
 	};;
 
 	public void createAndShowGUI() {
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		// menubar
-		frame.setJMenuBar(createMenuBar());
+		this.frame.setJMenuBar(this.createMenuBar());
 
 		// toolbar
 		JToolBar toolBar = new JToolBar("Still draggable");
-		addToolbarButtons(toolBar);
-		frame.add(toolBar, BorderLayout.PAGE_START);
+		this.addToolbarButtons(toolBar);
+		this.frame.add(toolBar, BorderLayout.PAGE_START);
 
 		// content
-		Component content = new SolidJSplitPane(JSplitPane.VERTICAL_SPLIT,
-				messageViewer.getComponent(), readingPane, 0.8);
-		messageViewer.addMessageSelectionListener(this);
+		Component content = new SolidJSplitPane(JSplitPane.VERTICAL_SPLIT, this.messageViewer.getComponent(), this.readingPane, 0.8);
+		this.messageViewer.addMessageSelectionListener(this);
 
-		messageBox = new MessageBox(messageViewer);
-		frame.add(
-				new SolidJSplitPane(JSplitPane.HORIZONTAL_SPLIT, messageBox
-						.getComponent(), content, 0.3), BorderLayout.CENTER);
+		this.messageBox = new MessageBox(this.messageViewer);
+		this.frame.add(new SolidJSplitPane(JSplitPane.HORIZONTAL_SPLIT, this.messageBox.getComponent(), content, 0.3), BorderLayout.CENTER);
 
 		// statusbar
-		frame.add(statusBar, BorderLayout.SOUTH);
-		statusBar.setStatus("Ready");
+		this.frame.add(this.statusBar, BorderLayout.SOUTH);
+		this.statusBar.setStatus("Ready");
 
-		frame.setLocationRelativeTo(null);
-		frame.setExtendedState(frame.getExtendedState() | JFrame.MAXIMIZED_BOTH);
+		this.frame.setLocationRelativeTo(null);
+		this.frame.setExtendedState(this.frame.getExtendedState() | Frame.MAXIMIZED_BOTH);
 		Dimension frameSize = Toolkit.getDefaultToolkit().getScreenSize();
-		frameSize.setSize(frameSize.getWidth() * 0.8,
-				frameSize.getHeight() * 0.8);
-		frame.setSize(frameSize);
-		frame.setVisible(true);
+		frameSize.setSize(frameSize.getWidth() * 0.8, frameSize.getHeight() * 0.8);
+		this.frame.setSize(frameSize);
+		this.frame.setVisible(true);
 	}
 
 	private JMenuBar createMenuBar() {
-		menubar.setBackground(new Color(233, 239, 245));
-		menubar.setBorder(BorderFactory.createEmptyBorder());
+		this.menubar.setBackground(new Color(233, 239, 245));
+		this.menubar.setBorder(BorderFactory.createEmptyBorder());
 
 		// menu items
 		JMenuItem menuItemNewMessage = new JMenuItem("New message..");
@@ -104,7 +98,8 @@ public class MainFrame implements MessageSelectionListener {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO: Create new message (open dialog ..)
+				MessageDialog messageDialog = new MessageDialog(MainFrame.this.messageViewer, MainFrame.this.statusBar);
+				messageDialog.setVisible(true);
 			}
 		});
 
@@ -113,7 +108,7 @@ public class MainFrame implements MessageSelectionListener {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new AccountViewer(messageBox);
+				new AccountViewer(MainFrame.this.messageBox);
 			}
 		});
 
@@ -138,45 +133,40 @@ public class MainFrame implements MessageSelectionListener {
 		menuFile.add(menuItemAccounts);
 		menuFile.add(menuItemExit);
 		menuHelp.add(menuItemHelpAbout);
-		menubar.add(menuFile);
-		menubar.add(menuEdit);
-		menubar.add(menuView);
-		menubar.add(menuHelp);
+		this.menubar.add(menuFile);
+		this.menubar.add(menuEdit);
+		this.menubar.add(menuView);
+		this.menubar.add(menuHelp);
 
-		return menubar;
+		return this.menubar;
 	}
 
 	@Override
 	public void messageSelected(MailMessage message) {
-		readingPane.setMessage(message);
+		this.readingPane.setMessage(message);
 	}
 
 	protected void addToolbarButtons(JToolBar toolBar) {
 		JButton button = null;
 
 		// receive button
-		button = makeNavigationButton("mail_receive.png", "Receive all mails",
-				"Receive", MailCommand.RECEIVE);
+		button = this.makeNavigationButton("mail_receive.png", "Receive all mails", "Receive", MailCommand.RECEIVE);
 		toolBar.add(button);
 
 		// write button
-		button = makeNavigationButton("mail_create.png", "Write a new mail",
-				"Write", MailCommand.CREATE);
+		button = this.makeNavigationButton("mail_create.png", "Write a new mail", "Write", MailCommand.CREATE);
 		toolBar.add(button);
 
 		// reply button
-		button = makeNavigationButton("mail_reply.png",
-				"Reply to selected mail", "Reply", MailCommand.REPLY);
+		button = this.makeNavigationButton("mail_reply.png", "Reply to selected mail", "Reply", MailCommand.REPLY);
 		toolBar.add(button);
 
 		// forward button
-		button = makeNavigationButton("mail_forward.png",
-				"Forward selected mail", "Forward", MailCommand.FORWARD);
+		button = this.makeNavigationButton("mail_forward.png", "Forward selected mail", "Forward", MailCommand.FORWARD);
 		toolBar.add(button);
 	}
 
-	protected JButton makeNavigationButton(String iconName, String toolTipText,
-			String altText, MailCommand command) {
+	protected JButton makeNavigationButton(String iconName, String toolTipText, String altText, MailCommand command) {
 		// Look for the image.
 		String imgLocation = "/icons/" + iconName;
 		URL imageURL = MainFrame.class.getResource(imgLocation);
@@ -186,11 +176,12 @@ public class MainFrame implements MessageSelectionListener {
 		button.setActionCommand(command.name());
 		button.setToolTipText(toolTipText);
 		button.setBorder(BorderFactory.createEmptyBorder(2, 4, 2, 4));
-		button.addActionListener(mailActionListener);
+		button.addActionListener(this.mailActionListener);
 
 		if (imageURL != null) { // image found
 			button.setIcon(new ImageIcon(imageURL, altText));
-		} else { // no image found
+		}
+		else { // no image found
 			button.setText(altText);
 			System.err.println("Resource not found: " + imgLocation);
 		}

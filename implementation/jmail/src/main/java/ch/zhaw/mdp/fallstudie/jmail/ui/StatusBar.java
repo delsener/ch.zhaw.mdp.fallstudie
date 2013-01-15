@@ -27,5 +27,5 @@ public class StatusBar extends JPanel {
 	public void setStatus(String status) {
 		this.status.setText(status);
 	}
-	
+
 }

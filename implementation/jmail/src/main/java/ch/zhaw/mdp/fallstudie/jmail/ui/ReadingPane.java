@@ -41,8 +41,7 @@ public class ReadingPane extends JPanel {
 
 		infoPanel = new JPanel(new GridBagLayout());
 		infoPanel.setBackground(new Color(248, 248, 248));
-		infoPanel.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0,
-				SolidJSplitPane.BORDER_COLOR));
+		infoPanel.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, SolidJSplitPane.BORDER_COLOR));
 
 		addInfoPanelItem(new JLabel("Subject"), BOLD_FONT, Color.GRAY, 0, 0, 0);
 		addInfoPanelItem(subject, BOLD_FONT, Color.BLACK, 1, 0, 1);
@@ -55,10 +54,9 @@ public class ReadingPane extends JPanel {
 		message.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		message.setEditable(false);
 
-		//Put the editor pane in a scroll pane.
+		// Put the editor pane in a scroll pane.
 		JScrollPane messageScrollPane = new JScrollPane(message);
-		messageScrollPane.setVerticalScrollBarPolicy(
-		                JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		messageScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		messageScrollPane.setPreferredSize(new Dimension(250, 145));
 		messageScrollPane.setMinimumSize(new Dimension(10, 10));
 
@@ -74,15 +72,12 @@ public class ReadingPane extends JPanel {
 		this.subject.setText(message.getSubject());
 	}
 
-	private void addInfoPanelItem(JComponent component, Font font, Color color,
-			int x, int y, int weight) {
+	private void addInfoPanelItem(JComponent component, Font font, Color color, int x, int y, int weight) {
 		Insets insets = new Insets(0, 10, 5, 0);
-		GridBagConstraints c = new GridBagConstraints(x, y, 1, 1, weight, 1,
-				GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, insets,
-				0, 0);
+		GridBagConstraints c = new GridBagConstraints(x, y, 1, 1, weight, 1, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, insets, 0, 0);
 		component.setFont(font);
 		component.setForeground(color);
 		infoPanel.add(component, c);
 	}
-	
+
 }
