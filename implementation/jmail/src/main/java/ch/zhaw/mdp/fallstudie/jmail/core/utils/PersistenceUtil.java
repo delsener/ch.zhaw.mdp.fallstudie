@@ -44,6 +44,19 @@ public abstract class PersistenceUtil {
 		try {
 			// use buffering
 			InputStream inputStream = new FileInputStream(file);
+			return PersistenceUtil.loadObject(inputStream);
+		}
+		catch (IOException ex) {
+			System.out.println("Error loading accounts");
+			ex.printStackTrace();
+		}
+		return null;
+	}
+
+	public static Serializable loadObject(InputStream inputStream) {
+		// read serialized accounts from file
+		try {
+			// use buffering
 			InputStream buffer = new BufferedInputStream(inputStream);
 			ObjectInput input = new ObjectInputStream(buffer);
 			try {

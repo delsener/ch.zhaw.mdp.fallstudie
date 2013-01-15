@@ -1,8 +1,8 @@
 package ch.zhaw.mdp.fallstudie.jmail.core.account;
 
 import java.io.File;
+import java.io.InputStream;
 import java.io.Serializable;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,15 +31,11 @@ public final class AccountUtil {
 
 	private static boolean checkFile() {
 		if (!AccountUtil.ACCOUNT_FILE.exists()) {
-			File sourceFile;
-			URL resource = AccountUtil.class.getClassLoader().getResource(AccountUtil.FILE_NAME);
+			InputStream resource = AccountUtil.class.getClassLoader().getResourceAsStream(AccountUtil.FILE_NAME);
 			if (resource == null) {
 				return false;
 			}
-			sourceFile = new File(resource.getPath());
-
-			// FIXME: This does not work !!!
-			PersistenceUtil.saveObject(AccountUtil.ACCOUNT_FILE, PersistenceUtil.loadObject(sourceFile));
+			PersistenceUtil.saveObject(AccountUtil.ACCOUNT_FILE, PersistenceUtil.loadObject(resource));
 		}
 		return true;
 	}
