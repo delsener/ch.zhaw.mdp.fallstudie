@@ -16,7 +16,8 @@ public class Account implements Serializable {
 	private String address;
 	private MailServer outServer;
 	private MailServer inServer;
-
+	private boolean useSSLAuth = false;
+	
 	/**
 	 * Default Constructor.
 	 */
@@ -69,6 +70,14 @@ public class Account implements Serializable {
 
 	public void setInServer(MailServer inServer) {
 		this.inServer = inServer;
+	}
+
+	public boolean isUseSSLAuth() {
+		return useSSLAuth;
+	}
+
+	public void setUseSSLAuth(boolean useSSLAuth) {
+		this.useSSLAuth = useSSLAuth;
 	}
 
 	@Override

@@ -2,6 +2,8 @@ package ch.zhaw.mdp.fallstudie.jmail.core.sendreceive;
 
 import java.util.List;
 
+import javax.swing.SwingUtilities;
+
 import ch.zhaw.mdp.fallstudie.jmail.core.messages.MailMessage;
 import ch.zhaw.mdp.fallstudie.jmail.core.messages.MessagePersistenceUtil;
 import ch.zhaw.mdp.fallstudie.jmail.core.messages.MessageType;
@@ -24,13 +26,20 @@ public class SenderThread extends Thread {
 	@Override
 	public void run() {
 		statusBar.setStatus("Sending mail ...");
-		List<MailMessage> messages = MessagePersistenceUtil.loadMessages(MessageType.SENT);
+		final List<MailMessage> messages = MessagePersistenceUtil.loadMessages(MessageType.SENT);
 		messages.add(mailMessage);
 		mailSender.sendMail(mailMessage.getAccount(), mailMessage);
-		messageViewer.setMessages(MessageType.SENT, messages);
-		MessagePersistenceUtil.saveMessages(MessageType.SENT, messages);
-		messageViewer.refreshFilteredMessages();
-		statusBar.setStatus("Ready");
+		
+		SwingUtilities.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				messageViewer.setMessages(MessageType.SENT, messages);
+				MessagePersistenceUtil.saveMessages(MessageType.SENT, messages);
+				messageViewer.refreshFilteredMessages();
+				statusBar.setStatus("Ready");
+			}
+		});
 	}
 
 }

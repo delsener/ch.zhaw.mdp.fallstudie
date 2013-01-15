@@ -220,7 +220,14 @@ public class MessageDialog extends JDialog {
 		});
 
 		add(container, BorderLayout.NORTH);
-
+		initDefaultValues();
+	}
+	
+	private void initDefaultValues() {
+		// default values for testing
+		textRecipients.setText("jmail.test@yahoo.com;mdp.jmail@gmx.ch;david.elsener@gmx.net");
+		textSubject.setText("I'm a test mail");
+		textContent.setText("I'm the content of the test mail.");
 	}
 
 }

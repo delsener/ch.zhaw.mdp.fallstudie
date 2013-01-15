@@ -32,7 +32,9 @@ public class MailSender implements IMailSender {
 			props.put("mail.smtp.host", mailServer.getHost());
 			props.put("mail.smtp.port", mailServer.getPort());
 			props.put("mail.smtp.auth", "true");
-			props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+			if (account.isUseSSLAuth()) {
+				props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+			}
 
 			Session session = Session.getInstance(props, mailServer.getAuthenticator());
 			Message message = new MimeMessage(session);

@@ -3,6 +3,8 @@ package ch.zhaw.mdp.fallstudie.jmail.core.sendreceive;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.SwingUtilities;
+
 import ch.zhaw.mdp.fallstudie.jmail.core.account.Account;
 import ch.zhaw.mdp.fallstudie.jmail.core.account.AccountUtil;
 import ch.zhaw.mdp.fallstudie.jmail.core.messages.MailMessage;
@@ -25,15 +27,21 @@ public class ReceiverThread extends Thread {
 	@Override
 	public void run() {
 		statusBar.setStatus("Receiving mails ...");
-		List<MailMessage> messages = new ArrayList<MailMessage>();
+		final List<MailMessage> messages = new ArrayList<MailMessage>();
 		List<Account> accounts = AccountUtil.loadAccounts();
 		for (Account account : accounts) {
 			mailReceiver.receiveMails(account, messages);
 		}
-		messageViewer.setMessages(MessageType.INBOX, messages);
-		MessagePersistenceUtil.saveMessages(MessageType.INBOX, messages);
-		messageViewer.refreshFilteredMessages();
-		statusBar.setStatus("Ready");
+		SwingUtilities.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				messageViewer.setMessages(MessageType.INBOX, messages);
+				MessagePersistenceUtil.saveMessages(MessageType.INBOX, messages);
+				messageViewer.refreshFilteredMessages();
+				statusBar.setStatus("Ready");
+			}
+		});
 	}
 
 }
