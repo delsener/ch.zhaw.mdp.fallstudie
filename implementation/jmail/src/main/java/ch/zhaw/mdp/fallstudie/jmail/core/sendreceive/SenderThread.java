@@ -29,9 +29,9 @@ public class SenderThread extends Thread {
 		final List<MailMessage> messages = MessagePersistenceUtil.loadMessages(MessageType.SENT);
 		messages.add(mailMessage);
 		mailSender.sendMail(mailMessage.getAccount(), mailMessage);
-		
+
 		SwingUtilities.invokeLater(new Runnable() {
-			
+
 			@Override
 			public void run() {
 				messageViewer.setMessages(MessageType.SENT, messages);

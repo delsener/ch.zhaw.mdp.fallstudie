@@ -17,7 +17,7 @@ public class Account implements Serializable {
 	private MailServer outServer;
 	private MailServer inServer;
 	private boolean useSSLAuth = false;
-	
+
 	/**
 	 * Default Constructor.
 	 */

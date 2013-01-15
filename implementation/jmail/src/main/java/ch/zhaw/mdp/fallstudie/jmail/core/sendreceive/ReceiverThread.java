@@ -33,7 +33,7 @@ public class ReceiverThread extends Thread {
 			mailReceiver.receiveMails(account, messages);
 		}
 		SwingUtilities.invokeLater(new Runnable() {
-			
+
 			@Override
 			public void run() {
 				messageViewer.setMessages(MessageType.INBOX, messages);

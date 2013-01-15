@@ -54,8 +54,7 @@ public class AccountViewer extends JDialog {
 			return;
 		}
 
-		this.accountList.setListData(accounts.toArray(new Account[accounts
-				.size()]));
+		this.accountList.setListData(accounts.toArray(new Account[accounts.size()]));
 		this.setVisible(true);
 		this.pack();
 	}
@@ -89,9 +88,7 @@ public class AccountViewer extends JDialog {
 
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
-				AccountViewer.this
-						.setCurrentAccount((Account) AccountViewer.this.accountList
-								.getSelectedValue());
+				AccountViewer.this.setCurrentAccount((Account) AccountViewer.this.accountList.getSelectedValue());
 			}
 		});
 
@@ -99,9 +96,7 @@ public class AccountViewer extends JDialog {
 		JPanel accountDetail = this.accountDetailPanel();
 
 		// split pane
-		SolidJSplitPane splitPane = new SolidJSplitPane(
-				JSplitPane.HORIZONTAL_SPLIT, this.accountList, accountDetail,
-				0.3);
+		SolidJSplitPane splitPane = new SolidJSplitPane(JSplitPane.HORIZONTAL_SPLIT, this.accountList, accountDetail, 0.3);
 		splitPane.setDividerLocation(150);
 		this.add(splitPane, BorderLayout.CENTER);
 	}
@@ -140,8 +135,7 @@ public class AccountViewer extends JDialog {
 		constraints.weightx = 0.0;
 		constraints.fill = GridBagConstraints.NONE;
 
-		JLabel labelEmailName = new JLabel(
-				"Email name (used when sending mails)");
+		JLabel labelEmailName = new JLabel("Email name (used when sending mails)");
 		accountDetail.add(labelEmailName, constraints);
 
 		constraints.gridx = 1;
@@ -198,8 +192,7 @@ public class AccountViewer extends JDialog {
 		constraints.fill = GridBagConstraints.HORIZONTAL;
 
 		JPanel inServerPanel = new JPanel(new GridBagLayout());
-		inServerPanel.setBorder(BorderFactory
-				.createTitledBorder("Incoming Server"));
+		inServerPanel.setBorder(BorderFactory.createTitledBorder("Incoming Server"));
 		accountDetail.add(inServerPanel, constraints);
 
 		this.fillMailServerArea(0, inServerPanel, constraints);
@@ -212,8 +205,7 @@ public class AccountViewer extends JDialog {
 		constraints.fill = GridBagConstraints.HORIZONTAL;
 
 		JPanel outServerPanel = new JPanel(new GridBagLayout());
-		outServerPanel.setBorder(BorderFactory
-				.createTitledBorder("Outgoing Server"));
+		outServerPanel.setBorder(BorderFactory.createTitledBorder("Outgoing Server"));
 		accountDetail.add(outServerPanel, constraints);
 
 		this.fillMailServerArea(1, outServerPanel, constraints);
@@ -228,20 +220,16 @@ public class AccountViewer extends JDialog {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				List<Account> accounts = new ArrayList<Account>();
-				for (int i = 0; i < AccountViewer.this.accountList.getModel()
-						.getSize(); i++) {
-					accounts.add((Account) AccountViewer.this.accountList
-							.getModel().getElementAt(i));
+				for (int i = 0; i < AccountViewer.this.accountList.getModel().getSize(); i++) {
+					accounts.add((Account) AccountViewer.this.accountList.getModel().getElementAt(i));
 				}
 
 				Account newAccount = new Account();
 				newAccount.setAccountName("Account Name");
 				accounts.add(newAccount);
 
-				AccountViewer.this.accountList.setListData(accounts
-						.toArray(new Account[accounts.size()]));
-				AccountViewer.this.accountList.setSelectedValue(newAccount,
-						true);
+				AccountViewer.this.accountList.setListData(accounts.toArray(new Account[accounts.size()]));
+				AccountViewer.this.accountList.setSelectedValue(newAccount, true);
 				AccountViewer.this.setCurrentAccount(newAccount);
 			}
 		});
@@ -254,8 +242,7 @@ public class AccountViewer extends JDialog {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				List<Account> accounts = AccountUtil.loadAccounts();
-				AccountViewer.this.accountList.setListData(accounts
-						.toArray(new Account[accounts.size()]));
+				AccountViewer.this.accountList.setListData(accounts.toArray(new Account[accounts.size()]));
 				AccountViewer.this.setCurrentAccount(null);
 			}
 		});
@@ -274,20 +261,14 @@ public class AccountViewer extends JDialog {
 				AccountViewer.this.writeToModel();
 
 				List<Account> accounts = new ArrayList<Account>();
-				for (int i = 0; i < AccountViewer.this.accountList.getModel()
-						.getSize(); i++) {
-					accounts.add((Account) AccountViewer.this.accountList
-							.getModel().getElementAt(i));
+				for (int i = 0; i < AccountViewer.this.accountList.getModel().getSize(); i++) {
+					accounts.add((Account) AccountViewer.this.accountList.getModel().getElementAt(i));
 				}
 				AccountUtil.saveAccounts(accounts);
-				Account selectedValue = (Account) AccountViewer.this.accountList
-						.getSelectedValue();
-				selectedValue.setAccountName(AccountViewer.this.currentAccount
-						.getAccountName());
-				AccountViewer.this.accountList
-						.setModel(AccountViewer.this.accountList.getModel());
-				AccountViewer.this.accountList.setSelectedValue(selectedValue,
-						true);
+				Account selectedValue = (Account) AccountViewer.this.accountList.getSelectedValue();
+				selectedValue.setAccountName(AccountViewer.this.currentAccount.getAccountName());
+				AccountViewer.this.accountList.setModel(AccountViewer.this.accountList.getModel());
+				AccountViewer.this.accountList.setSelectedValue(selectedValue, true);
 				AccountViewer.this.messageBox.reloadNodes();
 			}
 		});
@@ -312,8 +293,7 @@ public class AccountViewer extends JDialog {
 		return container;
 	}
 
-	private void fillMailServerArea(int id, JPanel group,
-			GridBagConstraints constraints) {
+	private void fillMailServerArea(int id, JPanel group, GridBagConstraints constraints) {
 		constraints.insets = new Insets(5, 5, 5, 5);
 		constraints.gridwidth = 1;
 		constraints.gridx = 0;
@@ -397,30 +377,20 @@ public class AccountViewer extends JDialog {
 			return;
 		}
 
-		this.currentAccount.setAccountName(this.textBindings.get("accountName")
-				.getText());
-		this.currentAccount.setEmailName(this.textBindings.get("emailName")
-				.getText());
+		this.currentAccount.setAccountName(this.textBindings.get("accountName").getText());
+		this.currentAccount.setEmailName(this.textBindings.get("emailName").getText());
 		this.currentAccount.setAddress(this.textBindings.get("address").getText());
 		this.currentAccount.setUseSSLAuth(this.booleanBindings.get("sslAuth").isSelected());
 
-		this.currentAccount.getInServer().setHost(
-				this.textBindings.get("0host").getText());
-		this.currentAccount.getInServer().setPort(
-				Integer.valueOf(this.textBindings.get("0port").getText()));
-		this.currentAccount.getInServer().setUsername(
-				this.textBindings.get("0username").getText());
-		this.currentAccount.getInServer().setPassword(
-				this.textBindings.get("0password").getText());
+		this.currentAccount.getInServer().setHost(this.textBindings.get("0host").getText());
+		this.currentAccount.getInServer().setPort(Integer.valueOf(this.textBindings.get("0port").getText()));
+		this.currentAccount.getInServer().setUsername(this.textBindings.get("0username").getText());
+		this.currentAccount.getInServer().setPassword(this.textBindings.get("0password").getText());
 
-		this.currentAccount.getOutServer().setHost(
-				this.textBindings.get("1host").getText());
-		this.currentAccount.getOutServer().setPort(
-				Integer.valueOf(this.textBindings.get("1port").getText()));
-		this.currentAccount.getOutServer().setUsername(
-				this.textBindings.get("1username").getText());
-		this.currentAccount.getOutServer().setPassword(
-				this.textBindings.get("1password").getText());
+		this.currentAccount.getOutServer().setHost(this.textBindings.get("1host").getText());
+		this.currentAccount.getOutServer().setPort(Integer.valueOf(this.textBindings.get("1port").getText()));
+		this.currentAccount.getOutServer().setUsername(this.textBindings.get("1username").getText());
+		this.currentAccount.getOutServer().setPassword(this.textBindings.get("1password").getText());
 	}
 
 	private void writeFromModel() {
@@ -431,29 +401,19 @@ public class AccountViewer extends JDialog {
 			return;
 		}
 
-		this.textBindings.get("accountName").setText(
-				this.currentAccount.getAccountName());
-		this.textBindings.get("emailName").setText(
-				this.currentAccount.getEmailName());
+		this.textBindings.get("accountName").setText(this.currentAccount.getAccountName());
+		this.textBindings.get("emailName").setText(this.currentAccount.getEmailName());
 		this.textBindings.get("address").setText(this.currentAccount.getAddress());
 		this.booleanBindings.get("sslAuth").setSelected(this.currentAccount.isUseSSLAuth());
 
-		this.textBindings.get("0host").setText(
-				this.currentAccount.getInServer().getHost());
-		this.textBindings.get("0port").setText(
-				String.valueOf(this.currentAccount.getInServer().getPort()));
-		this.textBindings.get("0username").setText(
-				this.currentAccount.getInServer().getUsername());
-		this.textBindings.get("0password").setText(
-				this.currentAccount.getInServer().getPassword());
+		this.textBindings.get("0host").setText(this.currentAccount.getInServer().getHost());
+		this.textBindings.get("0port").setText(String.valueOf(this.currentAccount.getInServer().getPort()));
+		this.textBindings.get("0username").setText(this.currentAccount.getInServer().getUsername());
+		this.textBindings.get("0password").setText(this.currentAccount.getInServer().getPassword());
 
-		this.textBindings.get("1host").setText(
-				this.currentAccount.getOutServer().getHost());
-		this.textBindings.get("1port").setText(
-				String.valueOf(this.currentAccount.getOutServer().getPort()));
-		this.textBindings.get("1username").setText(
-				this.currentAccount.getOutServer().getUsername());
-		this.textBindings.get("1password").setText(
-				this.currentAccount.getOutServer().getPassword());
+		this.textBindings.get("1host").setText(this.currentAccount.getOutServer().getHost());
+		this.textBindings.get("1port").setText(String.valueOf(this.currentAccount.getOutServer().getPort()));
+		this.textBindings.get("1username").setText(this.currentAccount.getOutServer().getUsername());
+		this.textBindings.get("1password").setText(this.currentAccount.getOutServer().getPassword());
 	}
 }
