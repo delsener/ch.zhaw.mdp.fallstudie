@@ -26,22 +26,30 @@ public class ReceiverThread extends Thread {
 
 	@Override
 	public void run() {
-		statusBar.setStatus("Receiving mails ...");
+		this.statusBar.setStatus("Receiving mails ...");
 		final List<MailMessage> messages = new ArrayList<MailMessage>();
 		List<Account> accounts = AccountUtil.loadAccounts();
-		for (Account account : accounts) {
-			mailReceiver.receiveMails(account, messages);
-		}
-		SwingUtilities.invokeLater(new Runnable() {
 
-			@Override
-			public void run() {
-				messageViewer.setMessages(MessageType.INBOX, messages);
-				MessagePersistenceUtil.saveMessages(MessageType.INBOX, messages);
-				messageViewer.refreshFilteredMessages();
-				statusBar.setStatus("Ready");
-			}
-		});
+		boolean successful = true;
+		for (Account account : accounts) {
+			successful = successful ? this.mailReceiver.receiveMails(account, messages) : successful;
+		}
+
+		if (successful) {
+			SwingUtilities.invokeLater(new Runnable() {
+				@Override
+				public void run() {
+					ReceiverThread.this.messageViewer.setMessages(MessageType.INBOX, messages);
+					MessagePersistenceUtil.saveMessages(MessageType.INBOX, messages);
+					ReceiverThread.this.messageViewer.refreshFilteredMessages();
+					ReceiverThread.this.statusBar.setStatus("Ready");
+				}
+			});
+		}
+		else {
+			Exception exception = this.mailReceiver.getLastException();
+			exception.printStackTrace();
+		}
 	}
 
 }
